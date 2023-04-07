@@ -1,1 +1,42 @@
-
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2023-04-07T13:14:08+00:00",
+    "name": "CouchDB",
+    "author": "maxring.work@gmail.com",
+    "description": null,
+    "features": null,
+    "docker_images": {
+        "docker.io\/maxgestic\/debian-os:os": "docker.io\/maxgestic\/debian-os:os"
+    },
+    "file_denylist": [],
+    "startup": ".\/start.sh",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Apache CouchDB has started\"\r\n}",
+        "logs": "{}",
+        "stop": "^C^C^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "echo -e \"\\033[0;32mInstalling Requirements\"\r\ntouch \/mnt\/server\/install.log\r\napt update &>> \/mnt\/server\/install.log\r\napt-get --no-install-recommends -y install build-essential pkg-config erlang libicu-dev libmozjs-78-dev libcurl4-openssl-dev npm python3-venv &>> \/mnt\/server\/install.log\r\ncurl -s -o- https:\/\/raw.githubusercontent.com\/nvm-sh\/nvm\/v0.39.3\/install.sh | bash &>> \/mnt\/server\/install.log\r\nsource ~\/.bashrc &>> \/mnt\/server\/install.log\r\nnvm install node &>> \/mnt\/server\/install.log\r\ncd \/mnt\/server &>> \/mnt\/server\/install.log\r\necho -e \"\\033[0;32mCloning CouchDB Source\"\r\ngit clone https:\/\/github.com\/apache\/couchdb couchdb_source &>> \/mnt\/server\/install.log\r\ncd couchdb_source &>> \/mnt\/server\/install.log\r\necho -e \"\\033[0;32mConfiguring CouchDB Source\"\r\n.\/configure --spidermonkey-version 78 &>> \/mnt\/server\/install.log\r\necho -e \"\\033[0;32mBuilding CouchDB from Source this may take a while\"\r\nmake release &>> \/mnt\/server\/install.log\r\necho -e \"\\033[0;32mCleaning up installation\"\r\nmv rel\/couchdb\/ .. &>> \/mnt\/server\/install.log\r\ncd .. &>> \/mnt\/server\/install.log\r\nrm -r couchdb_source &>> \/mnt\/server\/install.log\r\necho -e \"\\033[0;32mGetting and setting perms for start.sh\"\r\nwget https:\/\/gist.githubusercontent.com\/maxgestic\/7419096699beef5ff6dcf0340656d829\/raw\/ -O start.sh &>> \/mnt\/server\/install.log\r\nchmod +x start.sh &>> \/mnt\/server\/install.log\r\nls -la &>> \/mnt\/server\/install.log\r\necho -e \"\\033[0;32mCouchDB Instance Finished Installing\"",
+            "container": "docker.io\/maxgestic\/debian-os:install",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "CouchDB Admin Password",
+            "description": "",
+            "env_variable": "COUCH_DBPASS",
+            "default_value": "password",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|max:20",
+            "field_type": "text"
+        }
+    ]
+}
